@@ -45,7 +45,6 @@ int dequeue(RingBuffer *buffer, int *value)
     *value = buffer->data[buffer->tail];
     buffer->tail = (buffer->tail + 1) % BUFFER_SIZE;
     buffer->count--;
-    printf("Removed value: %d\n", value);
     return 1;
 }
 
@@ -91,7 +90,7 @@ int main()
         }
         case 2:
         {
-            if (dequeue(&buffer, value) == 0)
+            if (dequeue(&buffer, &value) == 0)
             {
                 printf("Buffer is empty.\n");
             }
