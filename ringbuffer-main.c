@@ -12,6 +12,43 @@ typedef struct
 
 RingBuffer buffer = {0};
 
+int isFull(RingBuffer *buffer)
+{
+    return buffer->count == BUFFER_SIZE;
+}
+
+int isEmpty(RingBuffer *buffer)
+{
+    return buffer->count == 0;
+}
+
+int enqueue(RingBuffer *buffer, int value)
+{
+    if (isFull(buffer))
+    {
+        return 0;
+    }
+    
+    buffer->data[buffer->head] = value;
+    buffer->head = (buffer->head + 1) % BUFFER_SIZE;
+    buffer->count++;
+    return 1;
+
+}
+
+int dequeue(RingBuffer *buffer, int *value)
+{
+    if (isEmpty(buffer))
+    {
+        return 0;
+    }
+    *value = buffer->data[buffer->tail];
+    buffer->tail = (buffer->tail + 1) % BUFFER_SIZE;
+    buffer->count--;
+    printf("Removed value: %d\n", value);
+    return 1;
+}
+
 int main()
 {
     int value = 0;
@@ -30,36 +67,62 @@ int main()
         {
         case 1:
         {
-            if (buffer.count == BUFFER_SIZE)
-            {
-                printf("Buffer is full. \n");
-                break;
-            }
-            
             printf("Add the value you want: ");
             scanf("%d", &value);
-            buffer.data[buffer.head] = value;
-            buffer.head = (buffer.head + 1) % BUFFER_SIZE;
-            buffer.count++;
+
+            if (enqueue(&buffer, value) == 0)
+            {
+                printf("Buffer is full.\n");
+            }
             break;
+
+            //if (isFull(&buffer))
+            //{
+            //    printf("Buffer is full. \n");
+            //    break;
+            //}
+            //
+            //printf("Add the value you want: ");
+            //scanf("%d", &value);
+            //buffer.data[buffer.head] = value;
+            //buffer.head = (buffer.head + 1) % BUFFER_SIZE;
+            //buffer.count++;
+            //break;
         }
         case 2:
         {
-            if (buffer.count == 0)
+            if (dequeue(&buffer, value) == 0)
             {
-                printf("Buffer is empty. \n");
-                break;
+                printf("Buffer is empty.\n");
             }
-
-            value = buffer.data[buffer.tail];
-            buffer.tail = (buffer.tail + 1) % BUFFER_SIZE;
-            buffer.count--;
-            printf("Removed value: %d\n", value);
+            else
+            {
+                printf("Removed value: %d\n", value);
+            }
             break;
+
+            //if (isEmpty(&buffer))
+            //{
+            //    printf("Buffer is empty. \n");
+            //    break;
+            //}
+//
+//
+            //if (dequeue(&buffer, value) == 1)
+            //{
+            //    printf("Removed value: %d\n", value);
+            //}
+            //
+//
+            //value = buffer.data[buffer.tail];
+            //buffer.tail = (buffer.tail + 1) % BUFFER_SIZE;
+            //buffer.count--;
+            //printf("Removed value: %d\n", value);
+            //break;
         }
         case 3:
         {
-            if (buffer.count == 0)
+            if (isEmpty(&buffer))
             {
                 printf("Buffer is empty.\n");
                 break;
