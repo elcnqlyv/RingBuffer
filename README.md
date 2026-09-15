@@ -1,0 +1,1 @@
+Basic ring buffer that I created for learning how it works.
