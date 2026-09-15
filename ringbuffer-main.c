@@ -48,6 +48,19 @@ int dequeue(RingBuffer *buffer, int *value)
     return 1;
 }
 
+void printBuffer (RingBuffer *buffer)
+{
+    if (isEmpty(buffer))
+    {
+        printf("The buffer is empty.\n");
+    }
+    for (int i = 0; i < buffer->count; i++)
+        {
+            int index = (buffer->tail + i) % BUFFER_SIZE;
+            printf("%d ", buffer->data[index]);
+        }
+}
+
 int main()
 {
     int value = 0;
@@ -121,19 +134,22 @@ int main()
         }
         case 3:
         {
-            if (isEmpty(&buffer))
-            {
-                printf("Buffer is empty.\n");
-                break;
-            }
+            printBuffer(&buffer);
+            break;           
 
-            for (int i = 0; i < buffer.count; i++)
-            {
-                int index = (buffer.tail + i) % BUFFER_SIZE;
-                printf("%d ", buffer.data[index]);
-            }
-            
-            break;
+            //if (isEmpty(&buffer))
+            //{
+            //    printf("Buffer is empty.\n");
+            //    break;
+            //}
+//
+            //for (int i = 0; i < buffer.count; i++)
+            //{
+            //    int index = (buffer.tail + i) % BUFFER_SIZE;
+            //    printf("%d ", buffer.data[index]);
+            //}
+            //
+            //break;
         }        
         case 4:
         {
